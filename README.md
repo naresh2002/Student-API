@@ -26,7 +26,7 @@ REST API in Go that performs basic CRUD (Create, Read, Update, Delete) operation
       "name": "name2",  
       "age": 23,  
       "email": "name3@gmail.com"  
-    }
+    }`
 
 4. UpdateStudent [PUT]  
    ``` http://127.0.0.1:8000/student/update/2 ```  
@@ -41,7 +41,7 @@ REST API in Go that performs basic CRUD (Create, Read, Update, Delete) operation
       "name": "name2",  
       "age": 23,  
       "email": "name2@gmail.com"  
-    }
+    }`
 
 5. DeleteStudent [DELETE]  
    ``` http://127.0.0.1:8000/student/delete/1 ```  
