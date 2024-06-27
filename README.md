@@ -49,6 +49,6 @@ REST API in Go that performs basic CRUD (Create, Read, Update, Delete) operation
    curl -X DELETE http://localhost:8000/student/delete/1
 
 7. StudentSummary [GET]  
-   ``` http://127.0.0.1:8000/student/delete/1 ```  
+   ``` http://127.0.0.1:8000/student/summary/1 ```  
    curl command :  
-   curl -X GET http://localhost:8000/student/delete/1 | jq
+   curl -X GET http://localhost:8000/student/summary/1 | jq
