@@ -6,12 +6,12 @@ REST API in Go that performs basic CRUD (Create, Read, Update, Delete) operation
 1. GetAllStudents [GET]  
    ``` http://127.0.0.1:8000/student/all ```  
    curl command :  
-   curl -X GET http://localhost:8000/student/all  
+   curl -X GET http://localhost:8000/student/all | jq  
 
 2. GetStudentById [GET]  
    ``` http://127.0.0.1:8000/student/1 ```  
    curl command :  
-   curl -X GET http://localhost:8000/student/1  
+   curl -X GET http://localhost:8000/student/1 | jq  
    
 3. CreateStudent [POST]  
    ``` http://127.0.0.1:8000/student/add ```  
@@ -51,4 +51,4 @@ REST API in Go that performs basic CRUD (Create, Read, Update, Delete) operation
 7. StudentSummary [GET]  
    ``` http://127.0.0.1:8000/student/delete/1 ```  
    curl command :  
-   curl -X GET http://localhost:8000/student/delete/1
+   curl -X GET http://localhost:8000/student/delete/1 | jq
