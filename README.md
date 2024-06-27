@@ -22,11 +22,11 @@ REST API in Go that performs basic CRUD (Create, Read, Update, Delete) operation
     "email": "name3@gmail.com"  
     }  
    curl command :  
-   curl -X POST http://localhost:8000/student/add -d `{  
+   curl -X POST http://localhost:8000/student/add -d '{  
       "name": "name2",  
       "age": 23,  
       "email": "name3@gmail.com"  
-    }`
+    }'
 
 4. UpdateStudent [PUT]  
    ``` http://127.0.0.1:8000/student/update/2 ```  
@@ -37,11 +37,11 @@ REST API in Go that performs basic CRUD (Create, Read, Update, Delete) operation
     "email": "name2@gmail.com"  
     }  
    curl command :  
-   curl -X PUT http://localhost:8000/student/update/2 -d `{  
+   curl -X PUT http://localhost:8000/student/update/2 -d '{  
       "name": "name2",  
       "age": 23,  
       "email": "name2@gmail.com"  
-    }`
+    }'
 
 5. DeleteStudent [DELETE]  
    ``` http://127.0.0.1:8000/student/delete/1 ```  
