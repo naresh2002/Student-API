@@ -1,7 +1,5 @@
 package data
 
-import "time"
-
 type Student struct {
 	ID        int    `json:"id"`
 	Name      string `json:"name"`
@@ -12,18 +10,18 @@ type Student struct {
 	DeletedAt string `json:"-"`
 }
 
-// var StudentsList = map[int]Student{}
+var StudentsList = map[int]Student{}
 
-var StudentsList = map[int]Student{
-	1: {
-		ID:        1,
-		Name:      "name1",
-		Age:       22,
-		Email:     "name1@gmail.com",
-		CreatedAt: time.Now().String(),
-		UpdatedAt: time.Now().String(),
-	},
-}
+// var StudentsList = map[int]Student{
+// 	1: {
+// 		ID:        1,
+// 		Name:      "name1",
+// 		Age:       22,
+// 		Email:     "name1@gmail.com",
+// 		CreatedAt: time.Now().String(),
+// 		UpdatedAt: time.Now().String(),
+// 	},
+// }
 
 func GetStudents() map[int]Student {
 	return StudentsList

@@ -76,7 +76,8 @@ func (s *Students) CreateStudent(rw http.ResponseWriter, req *http.Request) {
 
 	mutex.Lock()
 	defer mutex.Unlock()
-	student.ID = len(data.StudentsList) + 1
+	newID := data.StudentsList[len(data.StudentsList)].ID + 1 // Not "len(data.StudentsList)-1" as this is a map not list or vector
+	student.ID = newID                                        // If no data exists before then 1
 	student.CreatedAt = time.Now().String()
 	student.UpdatedAt = time.Now().String()
 	data.StudentsList[student.ID] = student
