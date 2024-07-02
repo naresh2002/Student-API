@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 	"student-api/data"
+	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -22,6 +23,8 @@ type Students struct {
 func NewStudent(lg *log.Logger) *Students {
 	return &Students{lg}
 }
+
+var mutex sync.Mutex
 
 func (s *Students) GetStudents(rw http.ResponseWriter, req *http.Request) {
 	s.lg.Println("Handle Get All Students")
@@ -71,6 +74,8 @@ func (s *Students) CreateStudent(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	mutex.Lock()
+	defer mutex.Unlock()
 	student.ID = len(data.StudentsList) + 1
 	student.CreatedAt = time.Now().String()
 	student.UpdatedAt = time.Now().String()
@@ -110,6 +115,8 @@ func (s *Students) UpdateStudent(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	mutex.Lock()
+	defer mutex.Unlock()
 	updatedStudent.ID = id
 	updatedStudent.CreatedAt = student.CreatedAt
 	updatedStudent.UpdatedAt = time.Now().String()
@@ -136,6 +143,9 @@ func (s *Students) DeleteStudent(rw http.ResponseWriter, req *http.Request) {
 		http.Error(rw, "Student not found", http.StatusNotFound)
 		return
 	}
+
+	mutex.Lock()
+	defer mutex.Unlock()
 	delete(data.StudentsList, id)
 	rw.WriteHeader(http.StatusNoContent)
 }
