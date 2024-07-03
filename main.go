@@ -15,12 +15,12 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/student/all", studentHandler.GetStudents).Methods("GET")
-	router.HandleFunc("/student/{id}", studentHandler.GetStudentByID).Methods("GET")
-	router.HandleFunc("/student/add", studentHandler.CreateStudent).Methods("POST")
-	router.HandleFunc("/student/update/{id}", studentHandler.UpdateStudent).Methods("PUT")
-	router.HandleFunc("/student/delete/{id}", studentHandler.DeleteStudent).Methods("DELETE")
-	router.HandleFunc("/student/summary/{id}", studentHandler.GetStudentSummary).Methods("GET")
+	router.HandleFunc("/student/all", studentHandler.GetStudents).Methods(http.MethodGet)
+	router.HandleFunc("/student/{id}", studentHandler.GetStudentByID).Methods(http.MethodGet)
+	router.HandleFunc("/student/add", studentHandler.CreateStudent).Methods(http.MethodPost)
+	router.HandleFunc("/student/update/{id}", studentHandler.UpdateStudent).Methods(http.MethodPut)
+	router.HandleFunc("/student/delete/{id}", studentHandler.DeleteStudent).Methods(http.MethodDelete)
+	router.HandleFunc("/student/summary/{id}", studentHandler.GetStudentSummary).Methods(http.MethodGet)
 
 	server := &http.Server{
 		Addr:    ":8000",
