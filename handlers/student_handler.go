@@ -133,7 +133,8 @@ func (s *Students) DeleteStudent(rw http.ResponseWriter, req *http.Request) {
 	mutex.Lock()
 	defer mutex.Unlock()
 	delete(data.StudentsList, id)
-	rw.WriteHeader(http.StatusNoContent)
+	rw.WriteHeader(http.StatusOK)
+	rw.Write([]byte(fmt.Sprintf("Student with ID %d deleted successfully", id)))
 }
 
 func (s *Students) GetStudentSummary(rw http.ResponseWriter, req *http.Request) {
