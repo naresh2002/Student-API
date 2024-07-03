@@ -21,12 +21,14 @@ func main() {
 	getRouter.HandleFunc("/student/{id}", studentHandler.GetStudentByID)
 	getRouter.HandleFunc("/student/summary/{id}", studentHandler.GetStudentSummary)
 
-	// POST Subrouter
+	// POST Subrouter with middleware
 	postRouter := router.Methods(http.MethodPost).Subrouter()
+	postRouter.Use(studentHandler.MiddlewareValidateStudent)
 	postRouter.HandleFunc("/student/add", studentHandler.CreateStudent)
 
-	// PUT Subrouter
+	// PUT Subrouter with middleware
 	putRouter := router.Methods(http.MethodPut).Subrouter()
+	putRouter.Use(studentHandler.MiddlewareValidateStudent)
 	putRouter.HandleFunc("/student/update/{id}", studentHandler.UpdateStudent)
 
 	// DELETE Subrouter

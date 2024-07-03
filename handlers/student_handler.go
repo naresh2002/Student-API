@@ -9,9 +9,10 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"student-api/data"
 	"sync"
 	"time"
+
+	"student-api/data"
 
 	"github.com/gorilla/mux"
 )
@@ -61,26 +62,17 @@ func (s *Students) GetStudentByID(rw http.ResponseWriter, req *http.Request) {
 
 func (s *Students) CreateStudent(rw http.ResponseWriter, req *http.Request) {
 	s.lg.Println("Handle Create Student")
-	var student data.Student
-	err := json.NewDecoder(req.Body).Decode(&student)
-	if err != nil {
-		http.Error(rw, "Invalid JSON payload", http.StatusBadRequest)
-		return
-	}
 
-	// Validate input
-	if student.Name == "" || student.Age <= 0 || student.Email == "" {
-		http.Error(rw, "Invalid student details", http.StatusBadRequest)
-		return
-	}
+	student := req.Context().Value(KeyStudent{}).(data.Student)
 
 	mutex.Lock()
 	defer mutex.Unlock()
-	newID := data.StudentsList[len(data.StudentsList)].ID + 1 // Not "len(data.StudentsList)-1" as this is a map not list or vector
-	student.ID = newID                                        // If no data exists before then 1
+
+	student.ID = data.GetNextID()
 	student.CreatedAt = time.Now().String()
 	student.UpdatedAt = time.Now().String()
 	data.StudentsList[student.ID] = student
+
 	rw.WriteHeader(http.StatusCreated)
 	d, err := json.Marshal(student)
 	if err != nil {
@@ -99,29 +91,22 @@ func (s *Students) UpdateStudent(rw http.ResponseWriter, req *http.Request) {
 		http.Error(rw, "Invalid student ID", http.StatusBadRequest)
 		return
 	}
-	var updatedStudent data.Student
-	err = json.NewDecoder(req.Body).Decode(&updatedStudent)
-	if err != nil {
-		http.Error(rw, "Invalid JSON payload", http.StatusBadRequest)
-		return
-	}
 	student, exists := data.StudentsList[id]
 	if !exists {
 		http.Error(rw, "Student not found", http.StatusNotFound)
 		return
 	}
-	// Validate input
-	if updatedStudent.Name == "" || updatedStudent.Age <= 0 || updatedStudent.Email == "" {
-		http.Error(rw, "Invalid student details", http.StatusBadRequest)
-		return
-	}
+
+	updatedStudent := req.Context().Value(KeyStudent{}).(data.Student)
 
 	mutex.Lock()
 	defer mutex.Unlock()
+
 	updatedStudent.ID = id
 	updatedStudent.CreatedAt = student.CreatedAt
 	updatedStudent.UpdatedAt = time.Now().String()
 	data.StudentsList[id] = updatedStudent
+
 	d, err := json.Marshal(updatedStudent)
 	if err != nil {
 		http.Error(rw, "Unable to marshal json", http.StatusInternalServerError)
@@ -210,7 +195,7 @@ func (s *Students) GetStudentSummary(rw http.ResponseWriter, req *http.Request) 
 		return
 	}
 
-	// Removing extra fields for the time being
+	// Removing unnecessary fields
 	delete(response, "context")
 	delete(response, "done_reason")
 	delete(response, "eval_count")
