@@ -6,11 +6,11 @@ Added **validations** to check proper request data for our struct using **middle
 # How to run this project
 1. Clone the repository using the command :  
 ` git clone https://github.com/naresh2002/Student-Management-System.git `  
-2. Open terminal in the cloned directory and run :
+2. Open terminal in the cloned directory and run :  
 ` go mod tidy `  
-3. To run GetStudentSummary endpoint we need to first install
-   a. ([**Ollama**](https://www.ollama.com/download))  
-   b. then install ([**llama3**](https://www.ollama.com/library/llama3)) model of Ollama using  
+3. To run GetStudentSummary endpoint we need to first install  
+   a. [**Ollama**](https://www.ollama.com/download)  
+   b. then install [**llama3**](https://www.ollama.com/library/llama3) model of Ollama using  
    ` ollama run llama3 `  
    c. Once it's done open a new terminal and start Ollama using the commands  
    ` sudo systemctl enable ollama `  
@@ -70,3 +70,6 @@ Then you can test endpoints given below using either Postman or running curl com
    ``` http://127.0.0.1:8000/student/summary/1 ```  
    curl command :  
    curl -X GET http://localhost:8000/student/summary/1 | jq
+
+# How to remove ollama
+Once you are done testing the project if you feel like you do not require Ollama anymore as it can cause system lag on low end systems. You can follow [**this guide**](https://collabnix.com/how-to-uninstall-ollama/) to completely uninstall ollama from your ststem
