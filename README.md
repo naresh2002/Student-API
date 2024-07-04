@@ -19,7 +19,7 @@ The project is designed to manage student data, providing endpoints to create, r
     go mod tidy
     ```
 
-3. **OPTIONAL:**  
+3. **OPTIONAL:** <a name="optional"></a>  
 To run the **Get Student Summary** endpoint, you need to first install:  
     a. [**Ollama**](https://www.ollama.com/download)  
     b. Then install the [**llama3**](https://www.ollama.com/library/llama3) model of Ollama using:  
@@ -101,6 +101,7 @@ To run the **Get Student Summary** endpoint, you need to first install:
     ```
 
 6. **Get Student Summary** [GET]  
+    Mandatory to have Ollama along with model llama3 installed as described in How to Run This Project [step 3](#optional).  
     ```http://127.0.0.1:8000/student/summary/{id}```  
     curl command:  
     ```bash
