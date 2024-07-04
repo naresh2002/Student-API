@@ -19,7 +19,8 @@ The project is designed to manage student data, providing endpoints to create, r
     go mod tidy
     ```
 
-3. **OPTIONAL:** To run the GetStudentSummary endpoint, you need to first install:  
+3. **OPTIONAL:**  
+To run the **Get Student Summary** endpoint, you need to first install:  
     a. [**Ollama**](https://www.ollama.com/download)  
     b. Then install the [**llama3**](https://www.ollama.com/library/llama3) model of Ollama using:  
      ```bash
