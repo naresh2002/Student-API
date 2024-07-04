@@ -18,17 +18,19 @@ import (
 )
 
 type Students struct {
-	lg *log.Logger
+	lg    *log.Logger
+	mutex sync.RWMutex
 }
 
 func NewStudent(lg *log.Logger) *Students {
-	return &Students{lg}
+	return &Students{lg: lg}
 }
-
-var mutex sync.Mutex
 
 func (s *Students) GetStudents(rw http.ResponseWriter, req *http.Request) {
 	s.lg.Println("Handle Get All Students")
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
+
 	ls := data.GetStudents()
 	d, err := json.Marshal(ls)
 	if err != nil {
@@ -47,11 +49,16 @@ func (s *Students) GetStudentByID(rw http.ResponseWriter, req *http.Request) {
 		http.Error(rw, "Invalid student ID", http.StatusBadRequest)
 		return
 	}
+
+	s.mutex.RLock()
 	student, exists := data.GetStudents()[id]
+	s.mutex.RUnlock()
+
 	if !exists {
 		http.Error(rw, "Student not found", http.StatusNotFound)
 		return
 	}
+
 	d, err := json.Marshal(student)
 	if err != nil {
 		http.Error(rw, "Unable to marshal json", http.StatusInternalServerError)
@@ -65,8 +72,8 @@ func (s *Students) CreateStudent(rw http.ResponseWriter, req *http.Request) {
 
 	student := req.Context().Value(KeyStudent{}).(data.Student)
 
-	mutex.Lock()
-	defer mutex.Unlock()
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 
 	student.ID = data.GetNextID()
 	student.CreatedAt = time.Now().String()
@@ -91,7 +98,11 @@ func (s *Students) UpdateStudent(rw http.ResponseWriter, req *http.Request) {
 		http.Error(rw, "Invalid student ID", http.StatusBadRequest)
 		return
 	}
+
+	s.mutex.RLock()
 	student, exists := data.StudentsList[id]
+	s.mutex.RUnlock()
+
 	if !exists {
 		http.Error(rw, "Student not found", http.StatusNotFound)
 		return
@@ -99,8 +110,8 @@ func (s *Students) UpdateStudent(rw http.ResponseWriter, req *http.Request) {
 
 	updatedStudent := req.Context().Value(KeyStudent{}).(data.Student)
 
-	mutex.Lock()
-	defer mutex.Unlock()
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 
 	updatedStudent.ID = id
 	updatedStudent.CreatedAt = student.CreatedAt
@@ -124,14 +135,16 @@ func (s *Students) DeleteStudent(rw http.ResponseWriter, req *http.Request) {
 		http.Error(rw, "Invalid student ID", http.StatusBadRequest)
 		return
 	}
+
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
+
 	_, exists := data.StudentsList[id]
 	if !exists {
 		http.Error(rw, "Student not found", http.StatusNotFound)
 		return
 	}
 
-	mutex.Lock()
-	defer mutex.Unlock()
 	delete(data.StudentsList, id)
 	rw.WriteHeader(http.StatusOK)
 	rw.Write([]byte(fmt.Sprintf("Student with ID %d deleted successfully", id)))
@@ -146,7 +159,11 @@ func (s *Students) GetStudentSummary(rw http.ResponseWriter, req *http.Request) 
 		http.Error(rw, "Invalid student ID", http.StatusBadRequest)
 		return
 	}
+
+	s.mutex.RLock()
 	student, exists := data.GetStudents()[id]
+	s.mutex.RUnlock()
+
 	if !exists {
 		http.Error(rw, "Student not found", http.StatusNotFound)
 		return
@@ -162,7 +179,7 @@ func (s *Students) GetStudentSummary(rw http.ResponseWriter, req *http.Request) 
 		http.Error(rw, "Unable to marshal json", http.StatusInternalServerError)
 		return
 	}
-	promptData := strings.ReplaceAll(fmt.Sprintf("Summarise the student details given in data into a sentence. data : %s", string(studentMarshal)), "\"", "")
+	promptData := strings.ReplaceAll(fmt.Sprintf("Summarize the student details given in data into a sentence. data: %s", string(studentMarshal)), "\"", "")
 
 	payload := OllamaRequest{
 		Model:  "llama3",

@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	lg := log.New(os.Stdout, "student-api ", log.LstdFlags)
+	lg := log.New(os.Stdout, "student-management-system ", log.LstdFlags)
 	studentHandler := handlers.NewStudent(lg)
 
 	router := mux.NewRouter()
