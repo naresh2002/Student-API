@@ -1,4 +1,4 @@
-# Student-API
+# Student-Management-System
 REST API in Go that performs basic CRUD (Create, Read, Update, Delete) operations on a list of students  
 Using **Ollama** with model **llama3** to generate summary for given student  
 Added **validations** to check proper request data for our struct using **middleware**  

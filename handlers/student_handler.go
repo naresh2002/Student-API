@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"student-api/data"
+	"student-management-system/data"
 
 	"github.com/gorilla/mux"
 )

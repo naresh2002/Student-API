@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"student-api/data"
+	"student-management-system/data"
 )
 
 type KeyStudent struct{}

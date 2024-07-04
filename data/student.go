@@ -53,10 +53,7 @@ func (s *Student) Validate() error {
 }
 
 func validateName(fl validator.FieldLevel) bool {
-	// // Name should be of format : {first_name} then "( ith_name)" where i = 2,3,4....
-	// re := regexp.MustCompile(`^[a-zA-Z]+([ ][a-zA-Z]+)*$`)
-
-	// Name can only be consist of atleast one of {[A-Z], [a-z] or ' '}
+	// Name should only be consist of atleast one of {[A-Z], [a-z] or ' '}
 	re := regexp.MustCompile(`^[a-zA-Z ]+$`)
 	matches := re.FindAllString(fl.Field().String(), -1)
 	fmt.Println(fl.Field().String())

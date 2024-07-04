@@ -1,8 +1,8 @@
-module student-api
+module student-management-system
 
 go 1.22.4
 
-require github.com/gorilla/mux v1.8.1
+require github.com/gorilla/mux v1.8.1 // indirect
 
 require (
 	github.com/go-playground/locales v0.14.1 // indirect

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"student-api/handlers"
+	"student-management-system/handlers"
 
 	"github.com/gorilla/mux"
 )
